@@ -30,6 +30,21 @@ class ipConfig:
                 properties_table[key] = val
         return properties_table
 
+    def get_length_of_bitmask(self) -> int:
+        """gets the length of the string of 1s in the subnet mask"""
+        bits = ''.join([f'{int(octet):b}' for octet in self.mask.split('.')])
+        ones, zeroes = bits.split('0', 1)
+        if int(zeroes) != 0:
+            raise ValueError("unhandled subnet mask format")
+        return len(ones)
+
+    def scan_subnet(self) -> list:
+        """runs nmap on the subnet"""
+        nmap_out = os.popen(f'nmap {self.ipv4}/{self.get_length_of_bitmask()}')
+        ret = []
+        # for line in nmap_out.read().split('\n'):
+        #     lst +=
+        return ret
 
 ip_config = ipConfig()
 ip_config.ipv4
